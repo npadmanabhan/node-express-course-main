@@ -1,0 +1,20 @@
+{
+  "name": "tutorial",
+  "version": "1.0.0",
+  "main": "1-intro.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Nandu Padmanabhan",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "description": ""
+}
