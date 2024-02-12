@@ -1,21 +1,23 @@
 const express = require('express')
+const path = require('path')
+
 const app = express()
 
-app.get('/', (req,res)=> {
-    console.log('User hit the home page resource')
-    res.send('Home Page')
-})
+app.use(express.static('./navbar-app'))
 
-app.get('/about', (req,res)=> {
-    console.log('User hit the about page resource')
-    res.status(200).send('About Page')
-})
+// app.get('/', (req,res)=> {
+//     console.log('user hit the home page resource')       
+//     res.sendFile(path.resolve(__dirname, './navbar-app/index.html'))     
+// })
 
 app.all('*',(req,res)=> {
+    console.log('user hit a 404 resource')
     res.status(404).send('<h1>Resource not found</h1>')
 })
 
 app.listen(5000, ()=> {
     console.log('Server is listening on port 5000')
-    console.log('Waiting for requests to come in')
+    console.log(__dirname)
+    console.log(`The file path for a single dot is is ${path.resolve(__dirname, './navbar-app/index.html')}`)
+    console.log(`The file path for a double dot is is ${path.resolve(__dirname, '../navbar-app/index.html')}`) 
 })
