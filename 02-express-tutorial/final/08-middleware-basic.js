@@ -1,21 +1,13 @@
 const express = require('express')
 const app = express()
-
-//  req => middleware => res
-
-const logger = (req, res, next) => {
-  const method = req.method
-  const url = req.url
-  const time = new Date().getFullYear()
-  console.log(method, url, time)
-  next()
-}
+const logger = require('../logger')
 
 app.get('/', logger, (req, res) => {
-  res.send('Home')
+  res.send('Welcome Home - By Nandu Padmanabhan')
 })
-app.get('/about', logger, (req, res) => {
-  res.send('About')
+
+app.get('/about', logger, (req,res)=>{
+  res.send('About Nandu Padmanabhan')
 })
 
 app.listen(5000, () => {
