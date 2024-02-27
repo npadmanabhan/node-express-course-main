@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: false }))
 // parse json
 app.use(express.json())
 
+//You have imported the royter above and assigned it to const "people". Now you are using that below.
 app.use('/api/people', people)
 app.use('/login', auth)
 
