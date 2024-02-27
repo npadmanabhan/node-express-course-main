@@ -1,3 +1,4 @@
+require('./db/connect')
 const express = require('express')
 const app = express()
 const tasks = require('./routes/tasks')
@@ -12,6 +13,6 @@ app.get('/hello', (req, res) => {
 
 app.use('/api/v1/tasks', tasks)
 
-
+console.log('Starting Task Manager App...')
 app.listen(port, console.log(`Server is listening on port ${port}...`))
-console.log('Task Manager App')
+
