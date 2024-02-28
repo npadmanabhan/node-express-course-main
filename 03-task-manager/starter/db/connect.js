@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const connectionString = 'mongodb+srv://app_user:onJa0V16Ay1MT0Fe@nodejs-task-manager.croec03.mongodb.net/?retryWrites=true&w=majority&appName=NodeJS-Task-Manager'
+const connectionString = 'mongodb+srv://app_user:xxxxxxxxxx@nodejs-task-manager.croec03.mongodb.net/?retryWrites=true&w=majority&appName=NodeJS-Task-Manager'
 
 mongoose
 .connect(connectionString)
