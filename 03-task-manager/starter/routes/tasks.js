@@ -11,5 +11,5 @@ router.get('/:id', getTask)
 router.patch('/:id', updateTask)
 router.delete('/:id', deleteTask)
 
-//Exports route handlers
+//Exports route handler
 module.exports = router
