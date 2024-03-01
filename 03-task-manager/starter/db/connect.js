@@ -9,4 +9,5 @@ const connectDB = (url) => {
   })
 }
 
+//Export Mongoose connection
 module.exports = connectDB

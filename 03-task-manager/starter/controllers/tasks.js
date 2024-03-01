@@ -4,10 +4,6 @@ const getAllTasks = (req,res)=>{
     res.send('Get All Tasks')
 }
 
-// const createTask = (req,res)=>{
-//     res.json(req.body)
-// }
-
 const createTask = async (req,res)=> {
     const task = await Task.create(req.body)
     res.status(201).json({task})
@@ -25,4 +21,5 @@ const deleteTask = (req,res)=>{
     res.send('Delete Task')
 }
 
+//Export controllers
 module.exports = {getAllTasks, createTask, getTask, updateTask, deleteTask}

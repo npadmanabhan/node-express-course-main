@@ -15,6 +15,8 @@ app.get('/hello', (req, res) => {
 app.use('/api/v1/tasks', tasks)
 
 const port = 3000
+
+//Define a function to establish database connectivity using connectDB function
 const startDB = async () => {
     try {
         await connectDB(process.env.MONGO_URI)
