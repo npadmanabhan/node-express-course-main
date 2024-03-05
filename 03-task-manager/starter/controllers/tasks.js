@@ -32,7 +32,7 @@ const getTask = async (req, res) => {
         const { id: taskID} = req.params
         const task = await Task.findOne({_id: taskID})
         if(!task){
-            return res.status(400).json( {msg: `No task with id: ${taskID}`})
+            return res.status(404).json( {msg: `No task with id: ${taskID}`})
         }
         res.status(200).json({task})
     } catch (error) {
@@ -44,8 +44,21 @@ const updateTask = (req,res)=>{
     res.send('Update Task')
 }
 
-const deleteTask = (req,res)=>{
-    res.send('Delete Task')
+//Controller for deleting a specific task (used for "DELETE /:id" route)
+//Use async await and wrap it around a try/catch to handle exceptions gracefully
+//There is a model called "Task" and we invoke a method called findOneAndDelete and pass in an ID based on which a document needs to be deleted from the tasks collection
+const deleteTask = async (req, res) => {
+    try {
+        const { id: taskID} = req.params
+        const task = await Task.findOneAndDelete({_id: taskID})
+        if(!task){
+            return res.status(404).json( {msg: `No task with id: ${taskID}`})
+        }
+        res.status(200).json({task: taskID, status: 'task deletion successful'})
+        
+    } catch (error) {
+        res.status(500).json( {msg: error})        
+    }   
 }
 
 //Export controllers
