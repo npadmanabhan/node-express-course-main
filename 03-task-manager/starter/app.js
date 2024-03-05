@@ -6,10 +6,7 @@ require('dotenv').config()
 
 //Middlware
 app.use(express.json())
-
-app.get('/hello', (req, res) => {
-    res.status(200).send('Task Manager App')
-})
+app.use(express.static('./public'))
 
 //Wire up base routes and route handlers
 app.use('/api/v1/tasks', tasks)

@@ -8,7 +8,7 @@ const getAllTasks = async (req,res) => {
         const tasks = await Task.find({})
         res.status(200).json({tasks})
     } catch (error) {
-        res.status(500).json( {msg: error})
+        res.status(500).json({msg: error})
     }    
 }
 
@@ -20,7 +20,7 @@ const createTask = async (req,res)=> {
         const task = await Task.create(req.body)
         res.status(201).json({task})
     } catch (error) {
-        res.status(500).json( {msg: error})
+        res.status(500).json({msg: error})
     }    
 }
 
@@ -36,12 +36,27 @@ const getTask = async (req, res) => {
         }
         res.status(200).json({task})
     } catch (error) {
-        res.status(500).json( {msg: error})        
+        res.status(500).json({msg: error} )        
     }    
 }
 
-const updateTask = (req,res)=>{
-    res.send('Update Task')
+//Controller for updating a specific task (used for "PUT /:id" route)
+//Use async await and wrap it around a try/catch to handle exceptions gracefully
+//There is a model called "Task" and we invoke a method called updateOne and pass in an ID based on which a document needs to be updated in the tasks collection
+const updateTask = async (req, res) => {
+    try {
+        const { id: taskID } = req.params        
+        const task = await Task.findOneAndUpdate({_id: taskID}, req.body, {
+            new: true,
+            runValidators: true
+        })
+        if(!task){
+            return res.status(404).json( {msg: `No task with id: ${taskID}`})
+        }
+        res.status(200).json({task, status: 'task update successful'})
+    } catch (error) {
+        res.status(500).json({msg: error} )        
+    }        
 }
 
 //Controller for deleting a specific task (used for "DELETE /:id" route)
