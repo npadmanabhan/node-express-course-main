@@ -6,7 +6,8 @@ const Task = require('../models/tasks')
 const getAllTasks = async (req,res) => {
     try {
         const tasks = await Task.find({})
-        res.status(200).json({tasks})
+        res.status(200).json({tasks})    
+        //res.status(200).json( {status: "success", count: tasks.length, data: {tasks}} )
     } catch (error) {
         res.status(500).json({msg: error})
     }    
@@ -40,7 +41,8 @@ const getTask = async (req, res) => {
     }    
 }
 
-//Controller for updating a specific task (used for "PUT /:id" route)
+//Controller for updating a specific task (used for "PATCH /:id" route)
+//NOTE: PATCH does a partial update of the resource (i.e. specific fields)
 //Use async await and wrap it around a try/catch to handle exceptions gracefully
 //There is a model called "Task" and we invoke a method called updateOne and pass in an ID based on which a document needs to be updated in the tasks collection
 const updateTask = async (req, res) => {
@@ -49,6 +51,27 @@ const updateTask = async (req, res) => {
         const task = await Task.findOneAndUpdate({_id: taskID}, req.body, {
             new: true,
             runValidators: true
+        })
+        if(!task){
+            return res.status(404).json( {msg: `No task with id: ${taskID}`})
+        }
+        res.status(200).json({task, status: 'task update successful'})
+    } catch (error) {
+        res.status(500).json({msg: error} )        
+    }        
+}
+
+//Controller for updating a specific task (used for "PUT /:id" route)
+//NOTE: PUT does a complete replace of the existing resource
+//Use async await and wrap it around a try/catch to handle exceptions gracefully
+//There is a model called "Task" and we invoke a method called updateOne and pass in an ID based on which a document needs to be updated in the tasks collection
+const editTask = async (req, res) => {
+    try {
+        const { id: taskID } = req.params        
+        const task = await Task.findOneAndUpdate({_id: taskID}, req.body, {
+            new: true,
+            runValidators: true,
+            overwrite: true
         })
         if(!task){
             return res.status(404).json( {msg: `No task with id: ${taskID}`})
@@ -77,4 +100,4 @@ const deleteTask = async (req, res) => {
 }
 
 //Export controllers
-module.exports = {getAllTasks, createTask, getTask, updateTask, deleteTask}
+module.exports = {getAllTasks, createTask, getTask, updateTask, editTask, deleteTask}
