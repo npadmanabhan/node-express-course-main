@@ -1,5 +1,6 @@
 const Task = require('../models/tasks')
 const asyncWrapper = require('../middleware/async')
+const {createCustomError} = require('../errors/custom-error')
 
 //Controller for getting all tasks (used for "GET /" route)
 //Use async await and wrap it around a try/catch to handle exceptions gracefully
@@ -21,11 +22,11 @@ const createTask = asyncWrapper(async (req,res)=> {
 //Controller for getting a specific task (used for "GET /:id" route)
 //Use async await and wrap it around a try/catch to handle exceptions gracefully
 //There is a model called "Task" and we invoke a method called findOne and pass in an ID based on which a document needs to be retrieved from the tasks collection
-const getTask = asyncWrapper(async (req, res) => {    
+const getTask = asyncWrapper(async (req, res, next) => {    
     const { id: taskID} = req.params
     const task = await Task.findOne({_id: taskID})
-    if(!task){
-        return res.status(404).json( {msg: `No task with id: ${taskID}`})
+    if(!task){      
+        return next(createCustomError(`No task with id: ${taskID}`,404))        
     }
     res.status(200).json({task})        
 })
@@ -41,7 +42,7 @@ const updateTask = asyncWrapper(async (req, res) => {
         runValidators: true
     })
     if(!task){
-        return res.status(404).json( {msg: `No task with id: ${taskID}`})
+        return next(createCustomError(`No task with id: ${taskID}`,404)) 
     }
     res.status(200).json({task, status: 'task update successful'})          
 })
@@ -58,7 +59,7 @@ const editTask = asyncWrapper(async (req, res) => {
         overwrite: true
     })
     if(!task){
-        return res.status(404).json( {msg: `No task with id: ${taskID}`})
+        return next(createCustomError(`No task with id: ${taskID}`,404)) 
     }
     res.status(200).json({task, status: 'task update successful'})           
 })
@@ -72,7 +73,7 @@ const deleteTask = async (req, res) => {
         const { id: taskID} = req.params
         const task = await Task.findOneAndDelete({_id: taskID})
         if(!task){
-            return res.status(404).json( {msg: `No task with id: ${taskID}`})
+            return next(createCustomError(`No task with id: ${taskID}`,404)) 
         }
         res.status(200).json({task: taskID, status: 'task deletion successful'})
         
